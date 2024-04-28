@@ -1,16 +1,16 @@
-import { Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "../dashboard/NavBar";
 import Dashboard from "../dashboard/Dashboard";
-import SignIn from "../auth/SignIn";
+import Viewall from "../dashboard/Viewall";
 
 const AppsRoutes = () => {
     return (
-        <BrowserRouter>
+        <NavBar>
             <Routes>
-                <Route path="/" element={<SignIn/>} />
-                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/dashboard/:idnodo" element={<Dashboard />} />
+                <Route path="/dashboard/:idnodo/:idnodo" element={<Viewall />} />
             </Routes>
-        </BrowserRouter>
+        </NavBar>
     )
 }
-
 export default AppsRoutes
