@@ -1,4 +1,4 @@
-import nodosData from './nodos.json';
+import nodosData from '../datosJson/nodos.json'
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import React from 'react';

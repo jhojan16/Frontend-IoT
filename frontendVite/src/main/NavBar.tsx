@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -14,7 +13,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import mainListItems from './Listitems';
 import { ReactNode } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import { AccountCircle } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -43,7 +44,7 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         '& .MuiDrawer-paper': {
-            position: 'permanent',
+            position: 'relative',
             whiteSpace: 'nowrap',
             width: drawerWidth,
             transition: theme.transitions.create('width', {
@@ -67,14 +68,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const NavBar = ({ children }: { children: ReactNode }) => {
-    const [open, setOpen] = React.useState(true);
+    const navigate = useNavigate();
+    const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
+    const handleOnLogout = () => {
+        navigate("/");
+    }
+
     return (
-        <Box sx={{ display: 'flex'}}>
-            <CssBaseline />
+
+        <Box sx={{ display: 'flex' }}>
+
+            {/* TopBar */}
             <AppBar position="absolute" open={open}>
                 <Toolbar
                     sx={{
@@ -100,15 +108,23 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                         noWrap
                         sx={{ flexGrow: 1 }}
                     >
-                        {/*Dashboard*/}
+                        Dashboard
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={0} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
+                    <IconButton color="inherit">
+                        <AccountCircle />
+                    </IconButton>
+                    <IconButton color="inherit" onClick={handleOnLogout}>
+                        <Logout />
+                    </IconButton>
                 </Toolbar>
             </AppBar>
+
+            {/* Sidebar */}
             <Drawer variant="permanent" open={open}>
                 <Toolbar
                     sx={{
@@ -122,19 +138,16 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                         <ChevronLeftIcon />
                     </IconButton>
                 </Toolbar>
-                <Divider />
                 <List component="nav">
                     {mainListItems()}
-                    <Divider sx={{ my: 1 }} />
                 </List>
             </Drawer>
             <Box
                 component="main"
                 sx={{
-                    backgroundColor: '#F0F0F0',
+                    backgroundColor: "#f0f0f0", //"#f8f8f8
                     flexGrow: 1,
                     height: '100vh',
-                    width: '100vh',
                     overflow: 'auto',
                 }}
             >
@@ -144,7 +157,6 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                 </div>
             </Box>
         </Box>
-
     );
 }
 export default NavBar
