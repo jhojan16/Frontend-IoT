@@ -11,20 +11,21 @@ const Dashboard = () => {
     const peso = data.datospeso.find(p => p.idnodo === parseInt(idnodo || ""));
     const ultrasonido = data.datosultrasonido.find(u => u.idnodo === parseInt(idnodo || ""));
     return (
-        <Container disableGutters className="flex flex-row">
+        <Container disableGutters className="bg-blue-200 flex flex-col mt-10 justify-center rounded-lg items-center max-w-3x1 pl-5 pr-5">
             <Box
                 display="flex"
-                flexDirection="column"
+                flexDirection="row"
                 justifyContent="space-around"
                 alignItems="center"
-                margin={5}>
-                <Grid item>
+                className='bg-white w-full rounded-lg mt-10 '>
+                <Grid item className='rounded-lg'>
                     <Typography variant="h3">Dashboard </Typography>
                 </Grid>
                 <Grid item>
                     <Typography variant="h3">Nodo {idnodo}</Typography>
                 </Grid>
             </Box>
+            
             <Grid container
                 direction="row"
                 justifyContent="space-around"
@@ -42,7 +43,7 @@ const Dashboard = () => {
                     </Grid>
                 )}
                 {peso && (
-                    <Grid item>
+                    <Grid item className='mb-1'>
                         <Deposits
                             id={peso.id}
                             idnodo={peso.idnodo}
@@ -53,7 +54,7 @@ const Dashboard = () => {
                     </Grid>
                 )}
                 {ultrasonido && (
-                    <Grid item>
+                    <Grid item className='mb-1'>
                         <Deposits
                             id={ultrasonido.id}
                             idnodo={ultrasonido.idnodo}

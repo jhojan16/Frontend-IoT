@@ -1,6 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Card, CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
+import CardMedia from '@mui/material/CardMedia';
+import logo from '../../assets/golden.jpg';
 
 export interface DepositsProps {
     id: number;
@@ -13,19 +15,24 @@ export interface DepositsProps {
 export default function AreaDeposits({ id, idnodo, value, sensor, fechahora }: DepositsProps) {
     return (
         <Link to={`${idnodo}`} style={{ textDecoration: 'none' }}>
-            <Card className="flex justify-center items-center mt-4 mr-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
+            <Card className="mt-4 mr-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
                 <CardActionArea>
-                    <Typography color={'primary'} variant='h4'>Datos {sensor}</Typography>
-                    <Typography component="h1" variant="h4">
+                    <CardMedia className="rounded-xl"
+                        component="img"
+                        style={{ height: 180 }}
+                        image={logo}
+                    />
+                    <Typography color={'primary'} align= 'center' variant='h5'>Datos {sensor}</Typography>
+                    <Typography variant="body1" align='center'>
                         Id: {id}
                     </Typography>
-                    <Typography variant="h4">
+                    <Typography variant="body2" align='center'>
                         Nodo: {idnodo}
                     </Typography>
-                    <Typography component="p" variant="h4">
+                    <Typography variant="body2" align='center'>
                         value: {value}
                     </Typography>
-                    <Typography variant="h5">
+                    <Typography variant="body2" align='center'>
                         Fecha: {fechahora.substr(0, 10)}
                     </Typography>
                 </CardActionArea>

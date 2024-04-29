@@ -145,7 +145,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
             <Box
                 component="main"
                 sx={{
-                    backgroundColor: "#f0f0f0", //"#f8f8f8
+                    backgroundColor: "FFFFFF", //"#f8f8f8
                     flexGrow: 1,
                     height: '100vh',
                     overflow: 'auto',
