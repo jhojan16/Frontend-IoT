@@ -41,10 +41,9 @@ const ViewAll = () => {
             </Box>
             <Container className="bg-blue-200 flex flex-col justify-center rounded-lg items-center max-w-3x1">
                 <Box className="bg-white flex flex-row justify-around items-center w-full rounded-lg mt-10 mb-10 ">
-                    <Box className="flex flex-col items-center">
+                    <Box className="flex flex-col items-center mb-7">
                         <Typography variant='h3' >Información</Typography>
                         <Typography variant='h5' >Nodo {id}</Typography>
-                        <Typography variant='h5' >Datos almacenados</Typography>
                     </Box>
                     <Box>
                         <CardMedia className="rounded-xl"
@@ -55,7 +54,7 @@ const ViewAll = () => {
                     </Box>
                 </Box>
                 <Box className="bg-white w-full mb-5">
-                    <Typography variant='h5' align="center">Datos almacenados Peso</Typography>
+                    <Typography variant='h5' align="center">Datos almacenados Peso del plato</Typography>
                 </Box>
                 <Container className="bg-white max-h-96 overflow-y-auto mb-5">
                     {userNodoPeso && (
@@ -65,7 +64,7 @@ const ViewAll = () => {
                     )}
                 </Container>
                 <Box className="bg-white w-full mb-5">
-                    <Typography variant='h5' align="center">Datos almacenados Infrarrojo</Typography>
+                    <Typography variant='h5' align="center">Datos almacenados de cantidad de alimento</Typography>
                 </Box>
                 <Container className="bg-white max-h-96 overflow-y-auto mb-5">
                     {userNodoUltrasonido && (
