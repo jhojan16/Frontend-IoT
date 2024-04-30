@@ -10,41 +10,57 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import jsonData from './data.json';
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import { AuthService } from '../api/users';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignIn() {
+    const Navigate = useNavigate();
+    const [value, setValue] = useState('');
+    const [error, setError] = useState('');
+    const [detailError, setDetailError] = useState(false);
+    const [valueError, setValueError] = useState(false);
 
-    const navigate = useNavigate();
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const email = data.get('email') as string;
-        const password = data.get('password') as string;
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const user = data.get('user');
+        const password = data.get('password');
 
         try {
-            // Verificar si las credenciales existen en el array de usuarios
-            const user = jsonData.users.find((user: { email: string, password: string }) => user.email === email && user.password === password);
-            // Validar las credenciales
-            if (user) {
-                console.log('Credenciales válidas. Acceso concedido al dashboard.');
-                navigate('/dashboard');
-                // Aquí puedes agregar el código para acceder al dashboard
-            } else {
-                console.log('Credenciales inválidas. Acceso denegado.');
+            const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.login}`, {
+                user: user,
+                password: password,
+            });
+            const data = response.data;
+            if (data && data.user1) {
+                // Accede a la propiedad "id" del objeto "user1"
+                const id = data.user1.id;
+                console.log(id);
+                // Redirecciona a la ruta con el ID del usuario
+                Navigate(`/user/${id}`);
             }
+
         } catch (error) {
-            console.error('Error al cargar o procesar el archivo data.json:', error);
+            console.error('Error:', error);
+            const res1 = (error as AxiosError).response?.status;
+            if (res1 === 401) {
+                setDetailError(true);
+                setValueError(false);
+                console.log('Password incorrect');
+            }
+            if (res1 === 404) {
+                setValueError(true);
+                setDetailError(true);
+                console.log('User not found');
+            }
         }
     };
 
     return (
-
         <Container component="main" maxWidth="xs">
-
             <Box
                 sx={{
                     marginTop: 18,
@@ -63,16 +79,24 @@ export default function SignIn() {
                     <TextField
                         margin="normal"
                         required
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        error={valueError}
+                        helperText={!value ? 'Required' : ''}
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="user"
+                        label="user"
+                        name="user"
+                        autoComplete="user"
                         autoFocus
                     />
                     <TextField
                         margin="normal"
                         required
+                        value={error}
+                        onChange={(e) => setError(e.target.value)}
+                        error={detailError}
+                        helperText={!error ? 'Required' : ''}
                         fullWidth
                         name="password"
                         label="Password"

@@ -7,8 +7,8 @@ const AppsRoutes = () => {
     return (
         <NavBar>
             <Routes>
-                <Route path="/dashboard/:idnodo" element={<Dashboard />} />
-                <Route path="/dashboard/:idnodo/:idnodo" element={<Viewall />} />
+                <Route path="/:id" element={<Dashboard />} />
+                <Route path="/:id/:id" element={<Viewall />} />
             </Routes>
         </NavBar>
     )

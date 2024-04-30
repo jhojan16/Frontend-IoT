@@ -4,11 +4,21 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import data from '../../datosJson/data.json';
+
+export interface Order {
+    id: number;
+    idnodo: number;
+    peso: number;
+    distancia: number;
+    fechahora: string;
+}
 
 // Generate Order Data
+interface TablesProps {
+    orders: Order[]
+}
 
-export default function Tables() {
+export default function Tables({orders}: TablesProps) {
     return (
         <React.Fragment>
             <Table stickyHeader>
@@ -21,7 +31,7 @@ export default function Tables() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.datospeso.map((order) => (
+                {orders.map((order) => (
                         <TableRow key={order.id}>
                             <TableCell align="center" style={{ fontSize: 'larger' }}>
                                 {order.id}
@@ -30,7 +40,7 @@ export default function Tables() {
                                 {order.idnodo}
                             </TableCell>
                             <TableCell align="center" style={{ fontSize: 'larger' }}>
-                                {order.peso}
+                                {order.peso || order.distancia}
                             </TableCell>
                             <TableCell align="center" style={{ fontSize: 'larger' }}>
                                 {order.fechahora.substr(0, 10)}

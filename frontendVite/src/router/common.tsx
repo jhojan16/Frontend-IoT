@@ -7,7 +7,7 @@ const MainRouter = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<SignIn />} />
-                <Route path="/*" element={<AppsRoutes />} />
+                <Route path="/user/*" element={<AppsRoutes />} />
             </Routes>
         </BrowserRouter>
     )
