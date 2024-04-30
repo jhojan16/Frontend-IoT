@@ -57,6 +57,10 @@ export default function SignIn() {
                 console.log('User not found');
             }
         }
+        
+    };
+    const handleRegisterNavigate = () => {
+        Navigate('/register');  // Cambia esto a la ruta de registro que configuraste
     };
 
     return (
@@ -116,15 +120,18 @@ export default function SignIn() {
                     >
                         Sign In
                     </Button>
+                    <Button
+                        onClick={handleRegisterNavigate}
+                        fullWidth
+                        variant="outlined"  // Puedes cambiar el estilo si deseas
+                        sx={{ mt: 1, mb: 2 }}
+                    >
+                        Don't have an account? Sign Up
+                    </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
                                 Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
                     </Grid>
