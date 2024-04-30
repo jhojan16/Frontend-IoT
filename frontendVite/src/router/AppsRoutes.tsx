@@ -11,6 +11,7 @@ const AppsRoutes = () => {
                 <Route path="/:id/:id" element={<Viewall />} />
             </Routes>
         </NavBar>
+        
     )
 }
 export default AppsRoutes

@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AppsRoutes from './AppsRoutes';
 import Register from "../auth/Register";
 
+
 const MainRouter = () => {
     return (
         <BrowserRouter>
@@ -12,6 +13,7 @@ const MainRouter = () => {
                 <Route path="/user/*" element={<AppsRoutes />} />
             </Routes>
         </BrowserRouter>
+
     )
 }
 

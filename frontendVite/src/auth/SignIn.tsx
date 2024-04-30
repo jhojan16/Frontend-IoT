@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { AuthService } from '../api/users';
+import { toast } from 'react-toastify';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignIn() {
@@ -42,18 +43,16 @@ export default function SignIn() {
                 // Redirecciona a la ruta con el ID del usuario
                 Navigate(`/user/${id}`);
             }
+            toast.success('Login successful');
 
         } catch (error) {
             console.error('Error:', error);
             const res1 = (error as AxiosError).response?.status;
-            if (res1 === 401) {
-                setDetailError(true);
-                setValueError(false);
-                console.log('Password incorrect');
-            }
+
             if (res1 === 404) {
                 setValueError(true);
                 setDetailError(true);
+                toast.warn('User not found');
                 console.log('User not found');
             }
         }
