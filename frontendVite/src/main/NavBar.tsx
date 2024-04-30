@@ -7,15 +7,14 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import mainListItems from './Listitems';
 import { ReactNode } from 'react';
 import { AccountCircle } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import PositionedMenu from "./ButtonNoti";
 
 const drawerWidth: number = 240;
 
@@ -68,6 +67,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const NavBar = ({ children }: { children: ReactNode }) => {
+
+
+
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
@@ -110,11 +112,9 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                     >
                         Dashboard
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={0} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+
+                        {PositionedMenu()}
+
                     <IconButton color="inherit">
                         <AccountCircle />
                     </IconButton>
