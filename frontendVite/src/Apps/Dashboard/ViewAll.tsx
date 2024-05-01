@@ -10,11 +10,20 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ManageNodosService } from "../../api/nodos";
+import { LineChart } from "@mui/x-charts";
+
+interface Data {
+    id: number;
+    usuario_id: number;
+    idnodo: number;
+    peso: number;
+    fechahora: string;
+}
 
 const ViewAll = () => {
     const { id } = useParams();
 
-    const [userNodoPeso, setUserNodos] = useState();
+    const [userNodoPeso, setUserNodos] = useState<Data[]>([]);
     const [userNodoUltrasonido, setUserNodosUltrasonido] = useState();
     useEffect(() => {
         const getAllUserNodos = async () => {
@@ -30,6 +39,16 @@ const ViewAll = () => {
         }
         getAllUserNodos();
     }, [id]);
+
+    const convertirAFechaNumerica = (fechaString: string) => {
+        const fecha = new Date(fechaString);
+        const horas = fecha.getHours().toString().padStart(2, '0');
+        const minutos = fecha.getMinutes().toString().padStart(2, '0');
+        const resultado = parseInt(`${horas}${minutos}`, 10);
+        console.log(resultado);
+        return resultado;
+    };
+
 
     // ...rest of the code
     return (
@@ -73,6 +92,22 @@ const ViewAll = () => {
                         />
                     )}
                 </Container>
+                <div className="bg-white w-full mb-5">
+                    {userNodoPeso && (
+                        <LineChart
+                            xAxis={[{ data: userNodoPeso.map(entry => entry.peso) }]}
+                            series={[
+                                {
+                                    data: userNodoPeso.map(entry => convertirAFechaNumerica(entry.fechahora),'Hora'),
+                                },
+
+                                
+                            ]}
+                            width={600}
+                            height={400}
+                        />
+                    )}
+                </div>
             </Container>
         </Box>
     );
