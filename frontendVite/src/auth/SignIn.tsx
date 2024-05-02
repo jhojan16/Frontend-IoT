@@ -15,7 +15,6 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { AuthService } from '../api/users';
 import { toast } from 'react-toastify';
-// TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignIn() {
     const Navigate = useNavigate();
@@ -28,27 +27,26 @@ export default function SignIn() {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const user = data.get('user');
-        const password = data.get('password');
+        const password = data.get('password')
 
         try {
             const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.login}`, {
                 user: user,
-                password: password,
+                password: password
             });
             const data = response.data;
             if (data && data.user1) {
                 // Accede a la propiedad "id" del objeto "user1"
                 const id = data.user1.id;
+                const tipo = data.user1.userType;
                 console.log(id);
                 // Redirecciona a la ruta con el ID del usuario
-                Navigate(`/user/${id}`);
+                Navigate(`/user/${tipo}/${id}`);
             }
             toast.success('Login successful');
-
         } catch (error) {
             console.error('Error:', error);
             const res1 = (error as AxiosError).response?.status;
-
             if (res1 === 404) {
                 setValueError(true);
                 setDetailError(true);
@@ -56,12 +54,10 @@ export default function SignIn() {
                 console.log('User not found');
             }
         }
-        
     };
     const handleRegisterNavigate = () => {
         Navigate('/register');  // Cambia esto a la ruta de registro que configuraste
     };
-
     return (
         <Container component="main" maxWidth="xs">
             <Box
@@ -85,7 +81,6 @@ export default function SignIn() {
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         error={valueError}
-                        helperText={!value ? 'Required' : ''}
                         fullWidth
                         id="user"
                         label="user"
@@ -99,7 +94,6 @@ export default function SignIn() {
                         value={error}
                         onChange={(e) => setError(e.target.value)}
                         error={detailError}
-                        helperText={!error ? 'Required' : ''}
                         fullWidth
                         name="password"
                         label="Password"

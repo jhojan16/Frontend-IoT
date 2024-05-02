@@ -9,18 +9,34 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { AuthService } from '../api/users';
+import { toast } from 'react-toastify';
+import Autocomplete from '@mui/material/Autocomplete';
+const options = ['Cliente', 'Tienda'];
+
 
 export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const Navigate = useNavigate();
+  const [detailError, setDetailError] = useState(false);
+  const [valueError, setValueError] = useState(false);
+  const [value1, setValue1] = React.useState<string | null>(options[0]);
+  const [inputValue, setInputValue] = React.useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const userType = value1 || inputValue;
+    if (!username.trim() || !password.trim() || !userType) {
+      toast.error('Error: Campos vacios');
+      setValueError(true);
+      setDetailError(true);
+      return;
+    }
     try {
       const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.register}`, {
         user: username,
-        password: password
+        password: password,
+        userType: userType
       });
       console.log(response.data.message);
       Navigate('/'); // Redirigir al login tras un registro exitoso
@@ -34,7 +50,7 @@ export default function Register() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className=' mt-40'>
       <Box
         sx={{
           marginTop: 8,
@@ -58,6 +74,7 @@ export default function Register() {
             label="Username"
             name="username"
             autoComplete="username"
+            error={valueError}
             autoFocus
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -70,9 +87,25 @@ export default function Register() {
             label="Password"
             type="password"
             id="password"
+            error={detailError}
             autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+          <Autocomplete
+            value={value1}
+            onChange={(event: any, newValue: string | null) => {
+              setValue1(newValue);
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+            }}
+            id="controllable-states-demo"
+            options={options}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Type user" />}
+            className='mt-4'
           />
           <Button
             type="submit"

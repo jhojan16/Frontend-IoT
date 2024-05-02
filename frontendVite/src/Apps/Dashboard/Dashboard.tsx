@@ -50,36 +50,39 @@ const Dashboard = () => {
                     margin={5}>
                     {userNodos && userNodos.map((nodo) => (
                         <Grid item key={nodo.idnodo}
-                            className='flex flex-row '>
+                            className='flex flex-row'>
                             <Card className="mt-4 mr-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
                                 <CardMedia className="rounded-xl"
                                     component="img"
                                     style={{ height: 180 }}
                                     image={logo}
                                 />
-                                <Box className="flex flex-row justify-between align-middle mt-3">
-                                    <Button
-                                        variant="outlined"
-                                        onClick={() => navigate(`${nodo.idnodo}`)}
-                                        sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
-                                    >
-                                        Nodo {nodo.idnodo}
-                                    </Button>
-                                    <IconButton
-                                        sx={{ mr: 'auto' }}
-                                        onClick={() => setSelectedIcon(nodo.idnodo)}
-                                    >
-                                        {selectedIcon === nodo.idnodo ? <FavoriteIcon color="error" /> : <FavoriteBorder />}
-                                    </IconButton>
-                                </Box>
-                                <Box className="pl-7">
-                                    <Button
-                                        variant="contained"
-                                        sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
-                                    >
-                                        Dispensar
-                                    </Button>
-                                </Box>
+                                <Grid container justifyContent="space-between" alignItems={'flex-end'}>
+                                    <Grid item className="flex flex-col mt-3">
+                                        <Button
+                                            variant="outlined"
+                                            onClick={() => navigate(`${nodo.idnodo}`)}
+                                            sx={{alignSelf: 'left',fontWeight: 600 }}
+                                            className='mb-1'
+                                        >
+                                            Nodo {nodo.idnodo}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            sx={{alignSelf: 'center', fontWeight: 600 }}
+                                        >
+                                            Dispensar
+                                        </Button>
+                                    </Grid>
+                                    <Grid item className= "align-bottom">
+                                        <IconButton
+                                            
+                                            onClick={() => setSelectedIcon(nodo.idnodo)}
+                                        >
+                                            {selectedIcon === nodo.idnodo ? <FavoriteIcon color="error" /> : <FavoriteBorder />}
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
                             </Card>
                         </Grid>
                     ))}
