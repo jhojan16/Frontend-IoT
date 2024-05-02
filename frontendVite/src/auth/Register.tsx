@@ -50,7 +50,7 @@ export default function Register() {
   };
 
   return (
-    <Container component="main" maxWidth="xs" className=' mt-40'>
+    <Container component="main" maxWidth="xs" className=' mt-36'>
       <Box
         sx={{
           marginTop: 8,
