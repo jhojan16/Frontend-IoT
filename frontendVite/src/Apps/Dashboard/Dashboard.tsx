@@ -57,10 +57,9 @@ const Dashboard = () => {
                                     style={{ height: 180 }}
                                     image={logo}
                                 />
-                                <Box
-                                    className="flex flex-row justify-between align-middle mt-3">
+                                <Box className="flex flex-row justify-between align-middle mt-3">
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         onClick={() => navigate(`${nodo.idnodo}`)}
                                         sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
                                     >
@@ -72,6 +71,14 @@ const Dashboard = () => {
                                     >
                                         {selectedIcon === nodo.idnodo ? <FavoriteIcon color="error" /> : <FavoriteBorder />}
                                     </IconButton>
+                                </Box>
+                                <Box className="pl-7">
+                                    <Button
+                                        variant="contained"
+                                        sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
+                                    >
+                                        Dispensar
+                                    </Button>
                                 </Box>
                             </Card>
                         </Grid>

@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import { Card, CardActionArea } from '@mui/material';
+import {Card, CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
 import CardMedia from '@mui/material/CardMedia';
 import logo from '../../assets/golden.jpg';
@@ -27,6 +27,7 @@ export default function AreaDeposits({ userNodos }: DepositsProps) {
                                 <Typography key={index} variant="body2" align='center'>
                                     Nodo: {nodo.idnodo}
                                 </Typography>
+                                
                             </CardActionArea>
                         </Card>
                     </Link>
