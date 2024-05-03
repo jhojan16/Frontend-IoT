@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { IconButton } from '@mui/material';
 
 export default function PositionedMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,15 +17,15 @@ export default function PositionedMenu() {
 
     return (
         <div>
-            <Button
+            <IconButton
                 aria-controls={open ? 'demo-positioned-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                
+                color='inherit' 
             >
-                <NotificationsActiveIcon color='inherit' />
-            </Button>
+                <NotificationsActiveIcon />
+            </IconButton>
             <Menu
                 id="demo-positioned-menu"
                 aria-labelledby="demo-positioned-button"

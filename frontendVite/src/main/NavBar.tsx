@@ -14,7 +14,7 @@ import { ReactNode } from 'react';
 import { AccountCircle } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import PositionedMenu from "./ButtonNoti";
+import PositionedMenu from './ButtonNoti';
 
 const drawerWidth: number = 240;
 
@@ -67,9 +67,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const NavBar = ({ children }: { children: ReactNode }) => {
-
-
-
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
@@ -79,11 +76,8 @@ const NavBar = ({ children }: { children: ReactNode }) => {
     const handleOnLogout = () => {
         navigate("/");
     }
-
     return (
-
         <Box sx={{ display: 'flex' }}>
-
             {/* TopBar */}
             <AppBar position="absolute" open={open}>
                 <Toolbar
@@ -113,18 +107,19 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                         Dashboard
                     </Typography>
 
-                        {PositionedMenu()}
+                    {/* Notifications */}
+                    <PositionedMenu />
+                    
+                <IconButton color="inherit">
+                    <AccountCircle />
+                </IconButton>
+                <IconButton color="inherit" onClick={handleOnLogout}>
+                    <Logout />
+                </IconButton>
+            </Toolbar>
+        </AppBar>
 
-                    <IconButton color="inherit">
-                        <AccountCircle />
-                    </IconButton>
-                    <IconButton color="inherit" onClick={handleOnLogout}>
-                        <Logout />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-
-            {/* Sidebar */}
+            {/* Sidebar */ }
             <Drawer variant="permanent" open={open}>
                 <Toolbar
                     sx={{
@@ -156,7 +151,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                     {children}
                 </div>
             </Box>
-        </Box>
+        </Box >
     );
 }
 export default NavBar

@@ -1,82 +1,226 @@
-import { alpha, styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
-import { Button, Container, Typography } from '@mui/material';
-
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-    'label + &': {
-        marginTop: theme.spacing(3),
-    },
-    '& .MuiInputBase-input': {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.mode === 'light' ? '#F3F6F9' : '#1A2027',
-        border: '1px solid',
-        borderColor: theme.palette.mode === 'light' ? '#E0E3E7' : '#2D3843',
-        fontSize: 16,
-        width: 'auto',
-        padding: '10px 12px',
-        transition: theme.transitions.create([
-            'border-color',
-            'background-color',
-            'box-shadow',
-        ]),
-        // Use the system font instead of the default Roboto font.
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-            borderColor: theme.palette.primary.main,
-        },
-    },
-}));
+import { Button, Container, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import axios from 'axios';
+import { ManageNodosService } from '../../api/nodos';
+import { toast } from 'react-toastify';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { AxiosError } from 'axios';
 
 const DashboardAdmin = () => {
+
+    const [id, setId] = useState('');
+    const [nodo, setNodo] = useState('');
+    const [value1, setValue] = useState('');
+    const [isInputDisabled, setInputDisabled] = useState(true);
+    const [tipo, setTipo] = useState('');
+    const [valueError, setValueError] = useState(false);
+    const [detailError, setDetailError] = useState(false);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setTipo(event.target.value as string);
+    };
+
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputDisabled(!event.target.checked);
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!id.trim() || !nodo.trim()) {
+            toast.error('Error: Campos vacios');
+            setValueError(true);
+            setDetailError(true);
+            return;
+        }
+        try {
+            const response = await axios.post(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.postPeso}`, {
+                usuario_id: id,
+                idnodo: nodo,
+                peso: value1
+            });
+            const response2 = await axios.post(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.postUltrasonido}`, {
+                usuario_id: id,
+                idnodo: nodo,
+                distancia: value1
+            });
+            if (response.status === 200 && response2.status === 200) {
+                toast.success('Nodo creado exitosamente');
+                setValueError(false);
+                setDetailError(false);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+    };
+    const handleSubmit2 = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!nodo.trim()) {
+            toast.error('Error: Campos vacios');
+            setValueError(true);
+            setDetailError(true);
+            return;
+        }
+        try {
+            const response = await axios.delete(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.deletePeso}`, {
+                data: { idnodo: nodo }
+            });
+            const response2 = await axios.delete(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.deleteUltrasonido}`, {
+                data: { idnodo: nodo }
+            });
+            if (response.status === 200 && response2.status === 200) {
+                toast.success('Nodo eliminado');
+                setValueError(false);
+                setDetailError(false);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    const handleSubmit3 = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!id.trim() || !nodo.trim() || !value1.trim() || !tipo.trim()) {
+            toast.error('Error: Campos vacios');
+            setValueError(true);
+            setDetailError(true);
+            return;
+        }
+        try {
+            if (tipo === 'Peso') {
+                const response = await axios.put(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.getPeso}`, {
+                    data: { peso: value1, idnodo: nodo },
+                });
+                if (response.status === 200) {
+                    toast.success('Nodo actualizado');
+                    setValueError(false);
+                    setDetailError(false);
+                }
+            } else if (tipo === 'distancia') {
+                const response = await axios.put(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.getUltrasonido}`, {
+                    distancia: value1,
+                    idnodo: nodo,
+                });
+                if (response.status === 200) {
+                    toast.success('Nodo actualizado');
+                    setValueError(false);
+                    setDetailError(false);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            const res1 = (error as AxiosError).response?.status;
+            if (res1 === 500) {
+                setValueError(true);
+                setDetailError(true);
+                toast.warn('Nodo no encontrado');
+            }
+        }
+    };
     return (
-        <Container className='bg-blue-300 flex flex-col w-96 h-auto rounded-lg items-center mt-28'>
+        <Container className='bg-slate-50 flex flex-col w-screen h-auto rounded-lg items-center mt-12'>
             <Box className='mt-5'>
-                <Typography variant='h4' color={'white'}>Manejo de nodos</Typography>
+                <Typography
+                    component="h1"
+                    variant="h4"
+                    color="primary"
+                    noWrap
+                    sx={{ flexGrow: 1 }}
+                >
+                    MANEJO DE NODOS
+                </Typography>
             </Box>
-            <Box className=' bg-slate-50 flex flex-col w-80 h-52 items-center mb-5 mt-5 rounded-lg'>
-                <Box className='mt-5'>
+            <Box className=' bg-white flex flex-col w-80 h-auto items-center mb-5 mt-5 rounded-lg'>
+                <Box className='' >
                     <FormControl variant="standard">
-                        <InputLabel shrink htmlFor="bootstrap-input">
-                            ID usuario
-                        </InputLabel>
-                        <BootstrapInput defaultValue="" id="bootstrap-input" />
+                        <TextField
+                            label='Usuario ID'
+                            variant='outlined'
+                            id="usuario_id"
+                            error={valueError}
+                            value={id}
+                            onChange={(e) => setId(e.target.value)} />
                     </FormControl>
                 </Box>
                 <Box className='mt-5'>
                     <FormControl variant="standard">
-                        <InputLabel shrink htmlFor="bootstrap-input">
-                            Nodo
-                        </InputLabel>
-                        <BootstrapInput defaultValue="" id="bootstrap-input" />
+                        <TextField
+                            label='Nodo'
+                            variant='outlined'
+                            value={nodo}
+                            error={detailError}
+                            onChange={(e) => setNodo(e.target.value)}
+                            id="nodo" />
+                    </FormControl>
+                </Box>
+                <Box className='mt-5'>
+                    <FormControl variant="standard">
+                        <TextField
+                            label='Valor'
+                            variant='outlined'
+                            disabled={isInputDisabled}
+                            title='valor predeterminado para la creación de nodos'
+                            defaultValue={value1 || 1}
+                            error={valueError}
+                            onChange={(e) => setValue(e.target.value)}
+                        />
+                        <FormControl fullWidth className='mt-5'>
+                            <InputLabel id="tipo">Tipo de value</InputLabel>
+                            <Select
+                                labelId="tipo"
+                                disabled={isInputDisabled}
+                                id="tipo"
+                                value={tipo}
+                                error={valueError}
+                                label="Tipo de nodo"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={'Peso'}>Peso</MenuItem>
+                                <MenuItem value={'distancia'}>Distancia</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControlLabel control={<Checkbox onChange={handleCheckboxChange} />} label="Actualizar valor" />
                     </FormControl>
                 </Box>
             </Box>
-
-            <Box className=' flex w-80 flex-row items-center justify-around'>
+            <Box className=' flex flex-row items-center justify-around space-x-4'>
                 <Box className='flex mb-5'>
-                    <Button variant='contained' color='primary' title='crear'>Crear</Button>
+                    <form onSubmit={handleSubmit2}>
+                        <Button variant='contained'
+                            color='primary'
+                            type="submit"
+                            title='eliminar'
+                            endIcon={<DeleteIcon />}>Eliminar</Button>
+                    </form>
                 </Box>
                 <Box className='flex mb-5'>
-                    <Button variant='contained' color='primary' title='eliminar'>Eliminar</Button>
+                    <form onSubmit={handleSubmit3}>
+                        <Button variant='contained'
+                            color='primary'
+                            type="submit"
+                            title='actualizar'
+                            endIcon={<SendIcon />}>Actualizar</Button>
+                    </form>
+                </Box>
+                <Box className='flex mb-5'>
+                    <form onSubmit={handleSubmit}>
+                        <Button variant='contained'
+                            color='primary'
+                            type="submit"
+                            title='crear'
+                            endIcon={<SendIcon />}>Crear</Button>
+                    </form>
                 </Box>
             </Box>
-
         </Container>
     );
 };

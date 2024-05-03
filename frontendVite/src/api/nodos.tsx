@@ -4,5 +4,9 @@ export const ManageNodosService = {
         getNodos: '/',
         getPeso: '/datosPeso',
         getUltrasonido: '/datosUltrasonido',
+        postPeso: '/datosPeso',
+        postUltrasonido: '/datosUltrasonido',
+        deletePeso: '/datosPeso',
+        deleteUltrasonido: '/datosUltrasonido',
     },
 };
