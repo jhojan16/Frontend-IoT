@@ -15,6 +15,12 @@ import { AccountCircle } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import PositionedMenu from './ButtonNoti';
+import axios from 'axios';
+import { useState } from 'react';
+import { AuthService } from '../api/users';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const drawerWidth: number = 240;
 
@@ -66,18 +72,56 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
+export interface UserNodos {
+    id: number;
+    estadoTapa: string;
+    fechahora: string;
+}
+
 const NavBar = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
-
     const handleOnLogout = () => {
         navigate("/");
     }
+
+    const { id } = useParams();
+    const [userNodos, setUserNodos] = useState([]);
+
+    const [prevSize, setPrevSize] = useState(0);
+
+    useEffect(() => {
+        const getAllUserNodos = async () => {
+            try {
+                const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.accionTapa}`);
+                if (!response.data) {
+                    throw new Error('No se encontraron notificaciones');
+                }
+                setUserNodos(response.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        getAllUserNodos();
+    }, [id]);
+
+    useEffect(() => {
+        // Enviar notificación si el tamaño del array ha aumentado
+        if (userNodos && userNodos.length > prevSize) {
+            console.log('Se ha añadido una nueva notificación!');
+            toast.warning('Nuevo estado de la Tapa!');
+            // Aquí puedes agregar tu lógica para enviar la notificación, por ejemplo, utilizando alguna librería de notificaciones como react-toastify
+        }
+        // Actualizar el tamaño previo del array
+        setPrevSize(userNodos ? userNodos.length : 0);
+    }, [userNodos, prevSize]);
+
     return (
         <Box sx={{ display: 'flex' }}>
+
             {/* TopBar */}
             <AppBar position="absolute" open={open}>
                 <Toolbar
@@ -108,18 +152,20 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                     </Typography>
 
                     {/* Notifications */}
-                    <PositionedMenu />
-                    
-                <IconButton color="inherit">
-                    <AccountCircle />
-                </IconButton>
-                <IconButton color="inherit" onClick={handleOnLogout}>
-                    <Logout />
-                </IconButton>
-            </Toolbar>
-        </AppBar>
+                    <PositionedMenu
+                        userNodos={userNodos} />
 
-            {/* Sidebar */ }
+
+                    <IconButton color="inherit">
+                        <AccountCircle />
+                    </IconButton>
+                    <IconButton color="inherit" onClick={handleOnLogout}>
+                        <Logout />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+
+            {/* Sidebar */}
             <Drawer variant="permanent" open={open}>
                 <Toolbar
                     sx={{

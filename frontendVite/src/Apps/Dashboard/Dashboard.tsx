@@ -28,8 +28,25 @@ const Dashboard = () => {
             setUserNodos(response.data.nodos);
             console.log(response.data.nodos);
         }
+
         getAllUserNodos();
     }, [id]);
+
+    const handleClick = async (idnodo:number) => {
+        try {
+            const jsonData = {
+                idnodo: idnodo,
+                accionDispensador: 1
+            };
+            const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.dispensar}`, jsonData);
+            console.log('Respuesta del servidor:', response.data);
+            // Aquí puedes manejar la respuesta del servidor si es necesario
+        } catch (error) {
+            console.error('Error al enviar el JSON:', error);
+            // Aquí puedes manejar los errores, como mostrar un mensaje al usuario
+        }
+    };
+
     return (
         <Box className="flex flex-row">
             <Container disableGutters className="bg-blue-200 flex flex-col mt-10 justify-center rounded-lg items-center max-w-3x1 pl-5 pr-5 ">
@@ -62,21 +79,21 @@ const Dashboard = () => {
                                         <Button
                                             variant="outlined"
                                             onClick={() => navigate(`${nodo.idnodo}`)}
-                                            sx={{alignSelf: 'left',fontWeight: 600 }}
+                                            sx={{ alignSelf: 'left', fontWeight: 600 }}
                                             className='mb-1'
                                         >
                                             Nodo {nodo.idnodo}
                                         </Button>
                                         <Button
                                             variant="contained"
-                                            sx={{alignSelf: 'center', fontWeight: 600 }}
+                                            sx={{ alignSelf: 'center', fontWeight: 600 }}
+                                            onClick={() => handleClick(nodo.idnodo)}
                                         >
-                                            Dispensar
+                                            Dispensar {nodo.idnodo}
                                         </Button>
                                     </Grid>
-                                    <Grid item className= "align-bottom">
+                                    <Grid item className="align-bottom">
                                         <IconButton
-                                            
                                             onClick={() => setSelectedIcon(nodo.idnodo)}
                                         >
                                             {selectedIcon === nodo.idnodo ? <FavoriteIcon color="error" /> : <FavoriteBorder />}

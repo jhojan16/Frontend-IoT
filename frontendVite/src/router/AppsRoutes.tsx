@@ -11,7 +11,7 @@ const AppsRoutes = () => {
             <Routes>
                 {/* Rutas para Cliente*/}
                 <Route path="/cliente/:id" element={<Dashboard />} />
-                <Route path="/cliente/:id/:id" element={<Viewall />} />
+                <Route path="/cliente/:id/:idnodo" element={<Viewall />} />
             </Routes>
             <Routes>
                 {/* Rutas para Administrador*/}

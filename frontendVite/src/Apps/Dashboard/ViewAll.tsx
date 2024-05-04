@@ -1,6 +1,5 @@
 import Orders from "./Table";
-import { useParams } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
@@ -17,6 +16,7 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 interface Data {
     id: number;
@@ -36,7 +36,6 @@ interface Data2 {
 
 const ViewAll = () => {
     const { id } = useParams();
-
     const [userNodoPeso, setUserNodos] = useState<Data[]>([]);
     const [userNodoUltrasonido, setUserNodosUltrasonido] = useState<Data2[]>([]);
     const [loading, setLoading] = useState(true)
@@ -86,7 +85,6 @@ const ViewAll = () => {
     if (!userNodoPeso || !userNodoUltrasonido) {
         return
     }
-
     // ...rest of the code
     return (
 
