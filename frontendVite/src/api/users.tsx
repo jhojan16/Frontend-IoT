@@ -5,6 +5,7 @@ export const AuthService = {
         register: '/register',
         getNodos: '/',
         accionTapa:'/accion',
-        dispensar: '/dispensar'
+        dispensar: '/dispensar',
+        tienda: '/tienda',
     },
 };

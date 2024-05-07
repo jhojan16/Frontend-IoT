@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 const Dashboard = () => {
     const { id } = useParams();
@@ -21,16 +22,17 @@ const Dashboard = () => {
     const [selectedIcon, setSelectedIcon] = useState(false);
     useEffect(() => {
         const getAllUserNodos = async () => {
-            console.log(id);
             const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.getNodos}${id}`);
             if (!response.data || !response.data.nodos) {
                 throw new Error('No se encontró el usuario');
             }
             setUserNodos(response.data.nodos);
-            console.log(response.data.nodos);
         }
 
-        getAllUserNodos();
+        if (id) {
+            getAllUserNodos();
+        }
+
     }, [id]);
 
     const handleClick = async (idnodo: number) => {
@@ -48,40 +50,28 @@ const Dashboard = () => {
         }
     };
 
-    const Navigate = useNavigate();
     const [value, setValue] = useState('');
     const [error, setError] = useState('');
     const [detailError, setDetailError] = useState(false);
     const [valueError, setValueError] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        const user = data.get('user');
-        const password = data.get('password')
-
+    const handleSubmit = async () => {
         try {
-            const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.login}`, {
-                user: user,
-                password: password
+            const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.tienda}`, {
+                mensaje: value,
+                usuario_id: id,
+                direccion: error
             });
             const data = response.data;
-            if (data && data.user1) {
-                // Accede a la propiedad "id" del objeto "user1"
-                const id = data.user1.id;
-                const tipo = data.user1.userType;
-                console.log(id);
-                // Redirecciona a la ruta con el ID del usuario
-                Navigate(`/user/${tipo}/${id}`);
-            }
-            toast.success('Login successful');
+            console.log(data);
+            toast.success('Pedido realizado con éxito');
+
         } catch (error) {
             console.error('Error:', error);
             const res1 = (error as AxiosError).response?.status;
-            if (res1 === 404) {
+            if (res1 === 500) {
                 setValueError(true);
                 setDetailError(true);
-                toast.warn('User not found');
                 console.log('User not found');
             }
         }
@@ -146,22 +136,25 @@ const Dashboard = () => {
                 </Grid>
 
                 <Box
-                    component={'form'}
+                    component="form"
                     display="flex"
-                    flexDirection="row"
+                    flexDirection={{ xs: 'column', sm: 'row' }} // En pantallas extra pequeñas (xs), los elementos se apilan verticalmente. En pantallas pequeñas (sm) y mayores, se alinean horizontalmente.
                     justifyContent="space-around"
                     alignItems="center"
                     className='bg-white w-full rounded-lg mb-2'
                     onSubmit={handleSubmit}
-                    >
-
+                    noValidate
+                    sx={{
+                        '& > :not(style)': { m: 1, width: { xs: '100%', sm: 'auto' } }, // En pantallas extra pequeñas (xs), los elementos ocupan el ancho completo. En pantallas pequeñas (sm) y mayores, el ancho es automático.
+                    }}
+                >
                     <Typography variant="h5">Realiza tu pedido</Typography>
-
                     <TextField
                         margin="normal"
                         required
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
+                        error={valueError}
                         name="mensaje"
                         label="mensaje"
                         type="mensaje"
@@ -171,25 +164,35 @@ const Dashboard = () => {
                     <TextField
                         margin="normal"
                         required
+                        value={id}
+                        error={valueError}
+                        disabled
+                        name="usuario id"
+                        label="usuario id"
+                        type="usuario id"
+                        id="usuario id"
+                        autoComplete="current-password"
+                    />
+                    <TextField
+                        margin="normal"
+                        required
                         value={error}
                         onChange={(e) => setError(e.target.value)}
+                        error={detailError}
                         name="direccion"
                         label="direccion"
                         type="direccion"
                         id="direccion"
                         autoComplete="current-password"
                     />
-
-                        <Button
-                            type="submit"
-                            onClick={handleSubmit}
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            
-                        >
-                            Enviar
-                        </Button>
-                    </Box>
+                    <Button
+                        type='submit'
+                        variant="contained"  // Puedes cambiar el estilo si deseas
+                        sx={{ mt: 1, mb: 2 }}
+                    >
+                        Enviar
+                    </Button>
+                </Box>
             </Container>
         </Box>
     );
