@@ -21,6 +21,7 @@ import { AuthService } from '../api/users';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { AxiosError } from 'axios';
 
 const drawerWidth: number = 240;
 
@@ -102,7 +103,10 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                 }
                 setUserNodos(response.data);
             } catch (error) {
-                console.error('Error:', error);
+                const res1 = (error as AxiosError).response?.status;
+                if (res1 === 404) {
+                    console.log('No hay notificaciones del dia de hoy');
+                }
             }
         }
         getAllUserNodos();

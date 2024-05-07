@@ -148,7 +148,7 @@ const Dashboard = () => {
                         '& > :not(style)': { m: 1, width: { xs: '100%', sm: 'auto' } }, // En pantallas extra pequeñas (xs), los elementos ocupan el ancho completo. En pantallas pequeñas (sm) y mayores, el ancho es automático.
                     }}
                 >
-                    <Typography variant="h5">Realiza tu pedido</Typography>
+                    <Typography variant="h5" className="font-light">¡Realiza tu pedido!</Typography>
                     <TextField
                         margin="normal"
                         required

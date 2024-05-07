@@ -127,20 +127,22 @@ const DashboardAdmin = () => {
         }
     };
     return (
-        <Container className='bg-slate-50 flex flex-col w-screen h-auto rounded-lg items-center mt-12'>
-            <Box className='mt-5'>
+        <Container className='bg-blue-200 flex flex-col max-w-xl h-auto rounded-lg items-center mt-12'>
+
+
+            <Box className='bg-white flex flex-col w-80 h-auto items-center mt-5 rounded-lg'>
                 <Typography
                     component="h1"
                     variant="h4"
-                    color="primary"
+                    className='font-sans text-2xl mt-5 mb-5'
                     noWrap
                     sx={{ flexGrow: 1 }}
                 >
                     MANEJO DE NODOS
                 </Typography>
             </Box>
-            <Box className=' bg-white flex flex-col w-80 h-auto items-center mb-5 mt-5 rounded-lg'>
-                <Box className='' >
+            <Box className=' bg-white flex flex-col w-80 h-auto items-center mb-5 mt-2 rounded-lg'>
+                <Box className='mt-2' >
                     <FormControl variant="standard">
                         <TextField
                             label='Usuario ID'
@@ -199,7 +201,8 @@ const DashboardAdmin = () => {
                             color='primary'
                             type="submit"
                             title='eliminar'
-                            endIcon={<DeleteIcon />}>Eliminar</Button>
+                            endIcon={<DeleteIcon />}
+                            className='bg-red-700'>Eliminar</Button>
                     </form>
                 </Box>
                 <Box className='flex mb-5'>
@@ -217,10 +220,12 @@ const DashboardAdmin = () => {
                             color='primary'
                             type="submit"
                             title='crear'
-                            endIcon={<SendIcon />}>Crear</Button>
+                            endIcon={<SendIcon />}
+                            className='bg-green-700'>Crear</Button>
                     </form>
                 </Box>
             </Box>
+
         </Container>
     );
 };
