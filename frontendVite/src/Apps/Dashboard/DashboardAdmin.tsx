@@ -46,12 +46,12 @@ const DashboardAdmin = () => {
             const response = await axios.post(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.postPeso}`, {
                 usuario_id: id,
                 idnodo: nodo,
-                peso: value1
+                peso: 1
             });
             const response2 = await axios.post(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.postUltrasonido}`, {
                 usuario_id: id,
                 idnodo: nodo,
-                distancia: value1
+                distancia: 1
             });
             if (response.status === 200 && response2.status === 200) {
                 toast.success('Nodo creado exitosamente');

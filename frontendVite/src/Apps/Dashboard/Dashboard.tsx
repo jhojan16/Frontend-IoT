@@ -1,4 +1,4 @@
-import { Card, Container, Typography } from '@mui/material';
+import { Card, Container, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
     const { id } = useParams();
@@ -32,7 +33,7 @@ const Dashboard = () => {
         getAllUserNodos();
     }, [id]);
 
-    const handleClick = async (idnodo:number) => {
+    const handleClick = async (idnodo: number) => {
         try {
             const jsonData = {
                 idnodo: idnodo,
@@ -47,9 +48,48 @@ const Dashboard = () => {
         }
     };
 
+    const Navigate = useNavigate();
+    const [value, setValue] = useState('');
+    const [error, setError] = useState('');
+    const [detailError, setDetailError] = useState(false);
+    const [valueError, setValueError] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const user = data.get('user');
+        const password = data.get('password')
+
+        try {
+            const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.login}`, {
+                user: user,
+                password: password
+            });
+            const data = response.data;
+            if (data && data.user1) {
+                // Accede a la propiedad "id" del objeto "user1"
+                const id = data.user1.id;
+                const tipo = data.user1.userType;
+                console.log(id);
+                // Redirecciona a la ruta con el ID del usuario
+                Navigate(`/user/${tipo}/${id}`);
+            }
+            toast.success('Login successful');
+        } catch (error) {
+            console.error('Error:', error);
+            const res1 = (error as AxiosError).response?.status;
+            if (res1 === 404) {
+                setValueError(true);
+                setDetailError(true);
+                toast.warn('User not found');
+                console.log('User not found');
+            }
+        }
+    };
+
     return (
         <Box className="flex flex-row">
-            <Container disableGutters className="bg-blue-200 flex flex-col mt-10 justify-center rounded-lg items-center max-w-3x1 pl-5 pr-5 ">
+            <Container disableGutters className="bg-blue-200 flex flex-col justify-center rounded-lg items-center max-w-3x1 pl-5 pr-5 ">
                 <Box
                     display="flex"
                     flexDirection="row"
@@ -104,6 +144,52 @@ const Dashboard = () => {
                         </Grid>
                     ))}
                 </Grid>
+
+                <Box
+                    component={'form'}
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-around"
+                    alignItems="center"
+                    className='bg-white w-full rounded-lg mb-2'
+                    onSubmit={handleSubmit}
+                    >
+
+                    <Typography variant="h5">Realiza tu pedido</Typography>
+
+                    <TextField
+                        margin="normal"
+                        required
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        name="mensaje"
+                        label="mensaje"
+                        type="mensaje"
+                        id="mensaje"
+                        autoComplete="current-password"
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        value={error}
+                        onChange={(e) => setError(e.target.value)}
+                        name="direccion"
+                        label="direccion"
+                        type="direccion"
+                        id="direccion"
+                        autoComplete="current-password"
+                    />
+
+                        <Button
+                            type="submit"
+                            onClick={handleSubmit}
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            
+                        >
+                            Enviar
+                        </Button>
+                    </Box>
             </Container>
         </Box>
     );
