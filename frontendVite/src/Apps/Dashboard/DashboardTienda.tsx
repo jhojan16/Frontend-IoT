@@ -1,4 +1,4 @@
-import { Card, Container, Typography, colors } from '@mui/material';
+import { Card, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
@@ -11,13 +11,13 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import PersonIcon from '@mui/icons-material/Person';
 import TodayIcon from '@mui/icons-material/Today';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { da } from 'date-fns/locale';
 import { toast } from 'react-toastify';
 
 
 const DashboardTienda = () => {
     const [userNodos, setUserNodos] = useState();
     const [disabled, setDisabled] = useState(false);
+    const [disabled2, setDisabled2] = useState(false);
 
     useEffect(() => {
         const getAllUserNodos = async () => {
@@ -70,7 +70,7 @@ const DashboardTienda = () => {
                     {userNodos && userNodos.map((nodo) => (
                         <Grid item key={nodo.id}
                             className='flex flex-row'>
-                            <Card className="mt-4 mr-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
+                            <Card className="mt-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
                                 <CardMedia className="rounded-xl"
                                     component="img"
                                     style={{ height: 180 }}
@@ -79,10 +79,10 @@ const DashboardTienda = () => {
                                 <div className="flex flex-col mt-3">
                                     <div className="flex items-center justify-start">
                                         <Typography variant="h4" className="font-bold">
-                                            Pedido # {nodo.id}
+                                            Pedido #{nodo.id}
                                         </Typography>
                                     </div>
-                                    <Typography variant="h6" className="font-sans">
+                                    <Typography variant="h5" className="font-light">
                                         Producto: {nodo.mensaje}
                                     </Typography>
                                     <div className="flex flex-row items-center justify-start">
@@ -118,9 +118,9 @@ const DashboardTienda = () => {
                                             className='bg-red-700'
                                             onClick={() => {
                                                 handleClick(nodo.id);
-                                                setDisabled(true); // Aquí deshabilitamos el botón
+                                                setDisabled2(true); // Aquí deshabilitamos el botón
                                             }}
-                                            disabled={disabled}
+                                            disabled={disabled2}
                                         /*
                                         onClick={() => navigate(`${nodo.id}`)}
                                         */

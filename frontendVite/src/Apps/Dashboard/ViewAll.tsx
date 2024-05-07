@@ -137,7 +137,7 @@ const ViewAll = () => {
                                 <Typography variant='h5' align="center">Peso actual</Typography>
                                 <Gauge height={200}
                                     value={userNodoPeso.map(entry => entry.peso).slice(-1)[0]}
-                                    valueMax={50} />
+                                    valueMax={100} />
                             </Box>
                         </div>
 

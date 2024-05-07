@@ -61,10 +61,12 @@ export default function PositionedMenu({ userNodos }: UserNodos) {
                 }}
             >
                 {userNodos && Array.isArray(userNodos) && userNodos.sort((a, b) => {
+                    
                     // Orden descendente basado en las cadenas de fecha
                     return b.fechahora.localeCompare(a.fechahora);
                 }).map((nodo) => (
                     <ListItemButton key={nodo.id}>
+                        
                         <ListItemIcon>
                             <PetsIcon />
                         </ListItemIcon>

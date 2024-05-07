@@ -98,7 +98,8 @@ const DashboardAdmin = () => {
         try {
             if (tipo === 'Peso') {
                 const response = await axios.put(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.getPeso}`, {
-                    data: { peso: value1, idnodo: nodo },
+                    peso: value1, 
+                    idnodo: nodo
                 });
                 if (response.status === 200) {
                     toast.success('Nodo actualizado');
@@ -134,7 +135,7 @@ const DashboardAdmin = () => {
                 <Typography
                     component="h1"
                     variant="h4"
-                    className='font-sans text-2xl mt-5 mb-5'
+                    className='font-sans text-2xl'
                     noWrap
                     sx={{ flexGrow: 1 }}
                 >
@@ -190,7 +191,8 @@ const DashboardAdmin = () => {
                                 <MenuItem value={'distancia'}>Distancia</MenuItem>
                             </Select>
                         </FormControl>
-                        <FormControlLabel control={<Checkbox onChange={handleCheckboxChange} />} label="Actualizar valor" />
+                        <FormControlLabel control={<Checkbox onChange={handleCheckboxChange} />} label="Actualizar valor" 
+                        className='font-light' />
                     </FormControl>
                 </Box>
             </Box>

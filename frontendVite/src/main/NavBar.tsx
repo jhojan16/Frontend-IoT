@@ -101,6 +101,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                 if (!response.data) {
                     throw new Error('No se encontraron notificaciones');
                 }
+                console.log(response.data.fechahora);
                 setUserNodos(response.data);
             } catch (error) {
                 const res1 = (error as AxiosError).response?.status;
@@ -158,8 +159,6 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                     {/* Notifications */}
                     <PositionedMenu
                         userNodos={userNodos} />
-
-
                     <IconButton color="inherit">
                         <AccountCircle />
                     </IconButton>
