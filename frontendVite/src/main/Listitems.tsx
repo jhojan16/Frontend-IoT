@@ -3,23 +3,29 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import React from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
+import { Link } from 'react-router-dom';
 
-const renderNodos = () => {
+interface Props {
+    // Define propiedades
+    typeUser: string;
+}
+
+const renderNodos = ({typeUser}:Props) => {
     return (
         <React.Fragment>
-            <ListItemButton>
+            <ListItemButton component={Link} to={`/user/about`}>
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary="Sobre nosotros" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component={Link} to={`/user/${typeUser}`}>
                 <ListItemIcon>
                     <ShoppingCartIcon />
                 </ListItemIcon>
-                <ListItemText primary="Orders" />
+                <ListItemText primary="Dashboard" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component={Link} to={`/user/team`}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>

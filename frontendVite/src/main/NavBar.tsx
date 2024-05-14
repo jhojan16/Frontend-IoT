@@ -18,10 +18,14 @@ import PositionedMenu from './ButtonNoti';
 import axios from 'axios';
 import { useState } from 'react';
 import { AuthService } from '../api/users';
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
+import { UserState } from '../redux/users/userSlice';
+import { setUser } from '../redux/users/userSlice';
+import { getWithoutExpiry } from '../redux/users/localStorage';
+import { useDispatch } from 'react-redux';
 
 const drawerWidth: number = 240;
 
@@ -80,6 +84,9 @@ export interface UserNodos {
 }
 
 const NavBar = ({ children }: { children: ReactNode }) => {
+    const userType = useSelector((state: { user: UserState }) => state.user.userType);
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
@@ -89,15 +96,16 @@ const NavBar = ({ children }: { children: ReactNode }) => {
         navigate("/");
     }
 
-    const { id } = useParams();
-    const [userNodos, setUserNodos] = useState([]);
+    const user2 = useSelector((state: { user: UserState }) => state.user.id);
 
+
+    const [userNodos, setUserNodos] = useState([]);
     const [prevSize, setPrevSize] = useState(0);
 
     useEffect(() => {
         const getAllUserNodos = async () => {
             try {
-                const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.accionTapa}`);
+                const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.accionTapa}/${user2}`);
                 if (!response.data) {
                     throw new Error('No se encontraron notificaciones');
                 }
@@ -111,7 +119,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
             }
         }
         getAllUserNodos();
-    }, [id]);
+    }, [user2]);
 
     useEffect(() => {
         // Enviar notificación si el tamaño del array ha aumentado
@@ -123,6 +131,23 @@ const NavBar = ({ children }: { children: ReactNode }) => {
         // Actualizar el tamaño previo del array
         setPrevSize(userNodos ? userNodos.length : 0);
     }, [userNodos, prevSize]);
+
+    const loggedUser = getWithoutExpiry('user');
+    if (loggedUser) {
+        dispatch(setUser(loggedUser));
+    }
+
+    let title;
+    switch (location.pathname) {
+        case '/user/about':
+            title = 'Sobre nosotros';
+            break;
+        case '/user/team':
+            title = 'Equipo';
+            break;
+        default:
+            title = 'Dashboard';
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -153,7 +178,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                         noWrap
                         sx={{ flexGrow: 1 }}
                     >
-                        Dashboard
+                        {title}
                     </Typography>
 
                     {/* Notifications */}
@@ -183,7 +208,7 @@ const NavBar = ({ children }: { children: ReactNode }) => {
                     </IconButton>
                 </Toolbar>
                 <List component="nav">
-                    {mainListItems()}
+                    {mainListItems({ typeUser: userType })}
                 </List>
             </Drawer>
             <Box

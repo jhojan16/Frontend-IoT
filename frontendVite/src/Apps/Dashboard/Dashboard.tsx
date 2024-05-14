@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AuthService } from '../../api/users';
-import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/golden.jpg';
@@ -14,26 +13,32 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
+import { UserState } from '../../redux/users/userSlice';
+
+interface nodos {
+    idnodo: number;
+    // otras propiedades...
+}
 
 const Dashboard = () => {
-    const { id } = useParams();
-    const [userNodos, setUserNodos] = useState();
+
+    const user2 = useSelector((state: { user: UserState }) => state.user.id);
+    const [userNodos, setUserNodos] = useState<nodos[]>();
     const navigate = useNavigate();
     const [selectedIcon, setSelectedIcon] = useState(false);
     useEffect(() => {
-        const getAllUserNodos = async () => {
-            const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.getNodos}${id}`);
+        const getAllUserNodos = async (user2: number) => {
+            const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.getNodos}${user2}`);
             if (!response.data || !response.data.nodos) {
                 throw new Error('No se encontró el usuario');
             }
             setUserNodos(response.data.nodos);
         }
 
-        if (id) {
-            getAllUserNodos();
-        }
+        getAllUserNodos(user2);
 
-    }, [id]);
+    }, []);
 
     const handleClick = async (idnodo: number) => {
         try {
@@ -59,7 +64,7 @@ const Dashboard = () => {
         try {
             const response = await axios.post(`${AuthService.baseUrl}${AuthService.endpoints.tienda}`, {
                 mensaje: value,
-                usuario_id: id,
+                usuario_id: user2,
                 direccion: error
             });
             const data = response.data;
@@ -123,10 +128,8 @@ const Dashboard = () => {
                                         </Button>
                                     </Grid>
                                     <Grid item className="align-bottom">
-                                        <IconButton
-                                            onClick={() => setSelectedIcon(nodo.idnodo)}
-                                        >
-                                            {selectedIcon === nodo.idnodo ? <FavoriteIcon color="error" /> : <FavoriteBorder />}
+                                        <IconButton>
+                                            <FavoriteIcon color="warning" />
                                         </IconButton>
                                     </Grid>
                                 </Grid>
@@ -164,7 +167,7 @@ const Dashboard = () => {
                     <TextField
                         margin="normal"
                         required
-                        value={id}
+                        value={user2}
                         error={valueError}
                         disabled
                         name="usuario id"
@@ -184,7 +187,7 @@ const Dashboard = () => {
                         type="direccion"
                         id="direccion"
                         autoComplete="current-password"
-                        
+
                     />
                     <Button
                         type='submit'

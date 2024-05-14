@@ -13,9 +13,16 @@ import TodayIcon from '@mui/icons-material/Today';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { toast } from 'react-toastify';
 
+interface nodos {
+    id: number;
+    mensaje: string;
+    direccion: string;
+    usuario_id: number;
+    fechahora: string;
+}
 
 const DashboardTienda = () => {
-    const [userNodos, setUserNodos] = useState();
+    const [userNodos, setUserNodos] = useState<nodos[]>();
     const [disabled, setDisabled] = useState(false);
     const [disabled2, setDisabled2] = useState(false);
 

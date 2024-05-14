@@ -15,6 +15,9 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { AuthService } from '../api/users';
 import { toast } from 'react-toastify';
+import { setUser } from '../redux/users/userSlice';
+import { useDispatch } from 'react-redux';
+import { saveWithouExpiry } from '../redux/users/localStorage';
 
 export default function SignIn() {
     const Navigate = useNavigate();
@@ -22,6 +25,7 @@ export default function SignIn() {
     const [error, setError] = useState('');
     const [detailError, setDetailError] = useState(false);
     const [valueError, setValueError] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,16 +38,14 @@ export default function SignIn() {
                 user: user,
                 password: password
             });
-            const data = response.data;
-            if (data && data.user1) {
-                // Accede a la propiedad "id" del objeto "user1"
-                const id = data.user1.id;
-                const tipo = data.user1.userType;
-                console.log(id);
-                // Redirecciona a la ruta con el ID del usuario
-                Navigate(`/user/${tipo}/${id}`);
-            }
-            toast.success('Login successful');
+            const data = response.data.user1;
+            console.log(data);
+            dispatch(setUser({ id: data.id, user: user, userType: data.userType, islogin: true }));
+
+            saveWithouExpiry('user', { id: data.id, user: user, userType: data.userType, islogin: true });
+
+            Navigate("/user/about");
+            toast.success('Welcome' + " " + user);
         } catch (error) {
             console.error('Error:', error);
             const res1 = (error as AxiosError).response?.status;
