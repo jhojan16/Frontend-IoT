@@ -23,21 +23,15 @@ interface Data {
     usuario_id: number;
     idnodo: number;
     peso: number;
-    fechahora: string;
-}
-
-interface Data2 {
-    id: number;
-    usuario_id: number;
-    idnodo: number;
     distancia: number;
     fechahora: string;
 }
 
+
 const ViewAll = () => {
     const { id } = useParams();
     const [userNodoPeso, setUserNodos] = useState<Data[]>([]);
-    const [userNodoUltrasonido, setUserNodosUltrasonido] = useState<Data2[]>([]);
+    const [userNodoUltrasonido, setUserNodosUltrasonido] = useState<Data[]>([]);
     const [loading, setLoading] = useState(true)
     const [bothCallsCompleted, setBothCallsCompleted] = useState(false);
 
@@ -146,7 +140,7 @@ const ViewAll = () => {
                                 <LineChart
                                     xAxis={[{
                                         id: 'Hora',
-                                        data: userNodoPeso.map(entry => new Date(entry.fechahora)),
+                                        data: userNodoPeso.slice(-10).map(entry => new Date(entry.fechahora)),
                                         label: 'Hora',
                                         valueFormatter: (entry) => format(entry, 'HH:mm:ss'),
                                     },
@@ -154,12 +148,12 @@ const ViewAll = () => {
                                     series={[
                                         {
                                             id: 'Peso del plato',
-                                            data: userNodoPeso.map(entry => entry.peso),
+                                            data: userNodoPeso.slice(-10).map(entry => entry.peso),
                                             label: 'Peso (gr)',
                                         },
                                         {
                                             id: 'Ultrasonido',
-                                            data: userNodoUltrasonido.map(entry => entry.distancia),
+                                            data: userNodoUltrasonido.slice(-10).map(entry => entry.distancia),
                                             label: 'Cantidad (%)',
                                         },
                                     ]}

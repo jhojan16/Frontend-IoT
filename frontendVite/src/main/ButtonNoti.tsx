@@ -6,6 +6,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 
 export interface Data {
     id: number;
+    idnodo: number;
     estadoTapa: string;
     fechahora: string;
 }
@@ -71,8 +72,9 @@ export default function PositionedMenu({ userNodos }: UserNodos) {
                             <PetsIcon />
                         </ListItemIcon>
                         <ListItemText
-                            primary={nodo.estadoTapa}
+                            primary={`${nodo.estadoTapa} en nodo ${nodo.idnodo}`}
                             secondary={nodo.fechahora.split('T')[1].split('.')[0]}
+                            
                         />
                     </ListItemButton>
                 ))}

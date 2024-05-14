@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/golden.jpg';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
@@ -26,7 +25,6 @@ const Dashboard = () => {
     const user2 = useSelector((state: { user: UserState }) => state.user.id);
     const [userNodos, setUserNodos] = useState<nodos[]>();
     const navigate = useNavigate();
-    const [selectedIcon, setSelectedIcon] = useState(false);
     useEffect(() => {
         const getAllUserNodos = async (user2: number) => {
             const response = await axios.get(`${AuthService.baseUrl}${AuthService.endpoints.getNodos}${user2}`);
@@ -129,7 +127,7 @@ const Dashboard = () => {
                                     </Grid>
                                     <Grid item className="align-bottom">
                                         <IconButton>
-                                            <FavoriteIcon color="warning" />
+                                            <FavoriteIcon color="error" />
                                         </IconButton>
                                     </Grid>
                                 </Grid>

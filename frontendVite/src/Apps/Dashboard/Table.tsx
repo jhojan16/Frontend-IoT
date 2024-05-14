@@ -18,7 +18,7 @@ interface TablesProps {
     orders: Order[]
 }
 
-export default function Tables({orders}: TablesProps) {
+export default function Tables({ orders }: TablesProps) {
     return (
         <React.Fragment>
             <Table stickyHeader>
@@ -31,7 +31,7 @@ export default function Tables({orders}: TablesProps) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {orders.map((order) => (
+                    {orders.map((order) => (
                         <TableRow key={order.id}>
                             <TableCell align="center" style={{ fontSize: 'larger' }}>
                                 {order.id}
@@ -43,7 +43,7 @@ export default function Tables({orders}: TablesProps) {
                                 {order.peso || order.distancia}
                             </TableCell>
                             <TableCell align="center" style={{ fontSize: 'larger' }}>
-                                {order.fechahora.substr(0, 10)}
+                                {new Date(order.fechahora).toLocaleTimeString()}
                             </TableCell>
                         </TableRow>
                     ))}
