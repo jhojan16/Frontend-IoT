@@ -25,7 +25,7 @@ const renderNodos = ({typeUser}:Props) => {
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
             </ListItemButton>
-            <ListItemButton component={Link} to={`/user/team`}>
+            <ListItemButton component={Link} to={`/user/${typeUser}/dogs`}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>

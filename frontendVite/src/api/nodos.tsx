@@ -8,5 +8,6 @@ export const ManageNodosService = {
         postUltrasonido: '/datosUltrasonido',
         deletePeso: '/datosPeso',
         deleteUltrasonido: '/datosUltrasonido',
+        
     },
 };

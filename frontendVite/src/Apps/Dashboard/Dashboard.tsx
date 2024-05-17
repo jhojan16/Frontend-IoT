@@ -90,7 +90,7 @@ const Dashboard = () => {
                     alignItems="center"
                     className='bg-white w-full rounded-lg mt-10 '>
                     <Grid item>
-                        <Typography variant="h3">Nodos</Typography>
+                        <Typography variant="h2" className="font-extrabold">Mis mascotas</Typography>
                     </Grid>
                 </Box>
                 <Grid container

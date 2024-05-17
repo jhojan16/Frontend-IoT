@@ -1,35 +1,47 @@
 import { Box, CardMedia, Container, Typography } from "@mui/material";
 //import pet from "../../assets/perro.png";
-import petNear from "../../assets/mascotas.png";
+import petNear from "../../assets/pets.jpeg";
+import pets from "../../assets/pets.jpg";
 
 const About = () => {
     return (
         <Container className="h-screen w-full mb-40">
-            <Typography variant="h1" className="font-extrabold">Smart Pet Feeder</Typography>
+            <Typography variant="h1" className="font-extrabold">Pata cuidado</Typography>
 
             <Box className="flex flex-col">
                 <Box className="flex flex-row mb-10">
-                    <Typography variant="body1" className="font-thin">
-                        El cuidado de las mascotas se ha transformado con la tecnología. Este dispensador inteligente de alimentos para mascotas utiliza sensores de ultrasonido para medir la cantidad de alimento, infrarrojos para accionar la tapa del contenedor y un sensor de peso que calcula la cantidad de alimento en el plato. Este sistema asegura que tu mascota reciba siempre la cantidad adecuada de comida y mantiene la higiene al evitar el acceso no deseado al alimento.
-                    </Typography>
+                    <Box className="flex flex-col w-full mr-5">
+                        <Typography variant="body1" className="font-thin">
+                            El cuidado de las mascotas se ha transformado con la tecnología. Este dispensador inteligente
+                            de alimentos para mascotas utiliza sensores de ultrasonido para medir la cantidad de alimento,
+                            infrarrojos para accionar la tapa del contenedor y un sensor de peso que calcula la cantidad
+                            de alimento en el plato. Este sistema asegura que tu mascota reciba siempre la cantidad
+                            adecuada de comida y mantiene la higiene al evitar el acceso no deseado al alimento.
+                        </Typography>
+                    </Box>
+                    <Box className="flex flex-col w-full">
 
-                    <Typography variant="body1" className="font-thin">
-                        Además, el sistema está equipado con un software que envía notificaciones a tu dispositivo móvil cuando tu mascota se acerca al plato, permitiéndote monitorear su alimentación de manera remota. Este enfoque innovador no solo mejora la comodidad sino que también promueve la salud y el bienestar de las mascotas.
-                    </Typography>
+                        <Typography variant="body1" className="font-thin">
+                            Además, el sistema está equipado con un software que envía notificaciones a tu dispositivo móvil 
+                            cuando tu mascota se acerca al plato, permitiéndote monitorear su alimentación de manera remota. 
+                            Este enfoque innovador no solo mejora la comodidad sino que también promueve la salud y el bienestar 
+                            de las mascotas.
+                        </Typography>
+                    </Box>
                 </Box>
 
                 <CardMedia
-    component="img"
-    sx={{ 
-        width: '100%', // Ajusta el ancho al 100%
-        height: 500, // Ajusta la altura al 100%
-        objectFit: 'cover', // Asegura que la imagen se adapte al contenedor
-        display: { xs: 'none', sm: 'block' } 
-    }}
-    image={petNear}
-    alt="Dispensador de alimento"
-    className="rounded-xl"
-/>
+                    component="img"
+                    sx={{
+                        width: '100%', // Ajusta el ancho al 100%
+                        height: 200, // Ajusta la altura al 100%
+                        objectFit: 'cover', // Asegura que la imagen se adapte al contenedor
+                        display: { xs: 'none', sm: 'block' }
+                    }}
+                    image={pets}
+                    alt="Dispensador de alimento"
+                    className="rounded-xl"
+                />
             </Box>
 
             <Box className="flex flex-col mt-10">
@@ -51,8 +63,8 @@ const About = () => {
                     width: screen,
                     height: 300,
                     display: { xs: 'none', sm: 'block' },
-                    borderTopLeftRadius: '16px',
-                    borderTopRightRadius: '16px',
+                    borderTopLeftRadius: '500px',
+                    borderTopRightRadius: '500px',
                 }}
                 image={petNear}
                 alt="Mascota cerca del dispensador"

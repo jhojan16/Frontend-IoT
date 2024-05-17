@@ -7,5 +7,9 @@ export const AuthService = {
         accionTapa:'/accion',
         dispensar: '/dispensar',
         tienda: '/tienda',
+        nodosTienda: '/allNodos',
+        pedidos: '/pedido',
+        mostrarPedidos: '/pedido',
+        eliminarPedido: '/pedido',
     },
 };
