@@ -124,7 +124,7 @@ const DashboardTienda = () => {
                                     <div className="flex flex-row items-center justify-start">
                                         <AccessTimeIcon color='primary' className='mr-2' />
                                         <Typography variant="h6" className="font-light">
-                                            {nodo.fechahora.split('T')[1].split('.')[0]}
+                                        {new Date(nodo.fechahora).toLocaleTimeString()}
                                         </Typography>
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@ const DashboardTienda = () => {
                                         onClick={() => navigate(`${nodo.id}`)}
                                         */
                                         >
-                                            Aceptar
+                                            Enviar
                                         </Button>
                                     </Grid>
                                 </Grid>

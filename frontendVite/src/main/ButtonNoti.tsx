@@ -64,7 +64,7 @@ export default function PositionedMenu({ userNodos }: UserNodos) {
                 {userNodos && Array.isArray(userNodos) && userNodos
                     .map(nodo => {
                         // Cambiar el valor 0 por "Tapa abierta"
-                        if (nodo.estadoTapa === '0') {
+                        if (nodo.estadoTapa === '1') {
                             nodo.estadoTapa = "Tapa abierta";
                         }
                         return nodo;
@@ -80,7 +80,7 @@ export default function PositionedMenu({ userNodos }: UserNodos) {
                             </ListItemIcon>
                             <ListItemText
                                 primary={`${nodo.estadoTapa} en nodo ${nodo.idnodo}`}
-                                secondary={nodo.fechahora.split('T')[1].split('.')[0]}
+                                secondary={new Date(nodo.fechahora).toLocaleTimeString()}
                             />
                         </ListItemButton>
                     ))}

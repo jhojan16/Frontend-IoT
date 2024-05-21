@@ -242,7 +242,7 @@ const DetailNodo = () => {
                                 <LineChart
                                     xAxis={[{
                                         id: 'Hora',
-                                        data: userNodoPeso.slice(-10).map(entry => new Date(entry.fechahora)),
+                                        data: userNodoPeso.slice(-3).map(entry => new Date(entry.fechahora)),
                                         label: 'Hora',
                                         valueFormatter: (entry) => format(entry, 'HH:mm:ss'),
                                     },
@@ -250,12 +250,12 @@ const DetailNodo = () => {
                                     series={[
                                         {
                                             id: 'Peso del plato',
-                                            data: userNodoPeso.slice(-10).map(entry => entry.peso),
+                                            data: userNodoPeso.slice(-3).map(entry => entry.peso),
                                             label: 'Peso (gr)',
                                         },
                                         {
                                             id: 'Ultrasonido',
-                                            data: userNodoUltrasonido.slice(-10).map(entry => entry.distancia),
+                                            data: userNodoUltrasonido.slice(-3).map(entry => entry.distancia),
                                             label: 'Cantidad (%)',
                                         },
                                     ]}
