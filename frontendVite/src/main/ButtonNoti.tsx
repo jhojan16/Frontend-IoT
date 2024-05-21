@@ -61,23 +61,30 @@ export default function PositionedMenu({ userNodos }: UserNodos) {
                     },
                 }}
             >
-                {userNodos && Array.isArray(userNodos) && userNodos.sort((a, b) => {
-                    
-                    // Orden descendente basado en las cadenas de fecha
-                    return b.fechahora.localeCompare(a.fechahora);
-                }).map((nodo) => (
-                    <ListItemButton key={nodo.id}>
-                        
-                        <ListItemIcon>
-                            <PetsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={`${nodo.estadoTapa} en nodo ${nodo.idnodo}`}
-                            secondary={nodo.fechahora.split('T')[1].split('.')[0]}
-                            
-                        />
-                    </ListItemButton>
-                ))}
+                {userNodos && Array.isArray(userNodos) && userNodos
+                    .map(nodo => {
+                        // Cambiar el valor 0 por "Tapa abierta"
+                        if (nodo.estadoTapa === '0') {
+                            nodo.estadoTapa = "Tapa abierta";
+                        }
+                        return nodo;
+                    })
+                    .filter(nodo => nodo.estadoTapa === "Tapa abierta")
+                    .sort((a, b) => {
+                        // Orden descendente basado en las cadenas de fecha
+                        return b.fechahora.localeCompare(a.fechahora);
+                    }).map((nodo) => (
+                        <ListItemButton key={nodo.id}>
+                            <ListItemIcon>
+                                <PetsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={`${nodo.estadoTapa} en nodo ${nodo.idnodo}`}
+                                secondary={nodo.fechahora.split('T')[1].split('.')[0]}
+                            />
+                        </ListItemButton>
+                    ))}
+
             </Menu>
         </div>
     );

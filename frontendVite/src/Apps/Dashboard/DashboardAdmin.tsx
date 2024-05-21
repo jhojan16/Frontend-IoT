@@ -73,10 +73,16 @@ const DashboardAdmin = () => {
         }
         try {
             const response = await axios.delete(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.deletePeso}`, {
-                data: { idnodo: nodo }
+                data: {
+                    idnodo: nodo,
+                    usuario_id: id
+                }
             });
             const response2 = await axios.delete(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.deleteUltrasonido}`, {
-                data: { idnodo: nodo }
+                data: {
+                    idnodo: nodo,
+                    usuario_id: id
+                }
             });
             if (response.status === 200 && response2.status === 200) {
                 toast.success('Nodo eliminado');
@@ -98,7 +104,7 @@ const DashboardAdmin = () => {
         try {
             if (tipo === 'Peso') {
                 const response = await axios.put(`${ManageNodosService.baseUrl}${ManageNodosService.endpoints.getPeso}`, {
-                    peso: value1, 
+                    peso: value1,
                     idnodo: nodo
                 });
                 if (response.status === 200) {
@@ -191,8 +197,8 @@ const DashboardAdmin = () => {
                                 <MenuItem value={'distancia'}>Distancia</MenuItem>
                             </Select>
                         </FormControl>
-                        <FormControlLabel control={<Checkbox onChange={handleCheckboxChange} />} label="Actualizar valor" 
-                        className='font-light' />
+                        <FormControlLabel control={<Checkbox onChange={handleCheckboxChange} />} label="Actualizar valor"
+                            className='font-light' />
                     </FormControl>
                 </Box>
             </Box>

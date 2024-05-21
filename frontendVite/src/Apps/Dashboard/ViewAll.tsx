@@ -122,7 +122,7 @@ const ViewAll = () => {
                             <Typography variant='h5' align="center">Peso del plato (gr)</Typography>
                         </Box>
                         <div className="flex flex-row justify-between w-full mb-5">
-                            <Container className="flex bg-white overflow-y-auto rounded-xl">
+                            <Container className="bg-white max-h-96 overflow-y-auto rounded-xl">
                                 {userNodoPeso && (
                                     <Orders
                                         orders={userNodoPeso}
@@ -133,7 +133,7 @@ const ViewAll = () => {
                                 <Typography variant='h5' align="center">Peso actual</Typography>
                                 <Gauge height={200}
                                     value={userNodoPeso.map(entry => entry.peso).slice(-1)[0]}
-                                    text={`${userNodoPeso.map(entry => entry.peso).slice(-1)[0]}%`}
+                                    text={`${userNodoPeso.map(entry => entry.peso).slice(-1)[0]} gr`}
                                     valueMax={100} 
                                     sx={
                                         {
@@ -150,7 +150,7 @@ const ViewAll = () => {
                                 <LineChart
                                     xAxis={[{
                                         id: 'Hora',
-                                        data: userNodoPeso.slice(-10).map(entry => new Date(entry.fechahora)),
+                                        data: userNodoPeso.slice(-2).map(entry => new Date(entry.fechahora)),
                                         label: 'Hora',
                                         valueFormatter: (entry) => format(entry, 'HH:mm:ss'),
                                     },
@@ -158,12 +158,12 @@ const ViewAll = () => {
                                     series={[
                                         {
                                             id: 'Peso del plato',
-                                            data: userNodoPeso.slice(-10).map(entry => entry.peso),
+                                            data: userNodoPeso.slice(-2).map(entry => entry.peso),
                                             label: 'Peso (gr)',
                                         },
                                         {
                                             id: 'Ultrasonido',
-                                            data: userNodoUltrasonido.slice(-10).map(entry => entry.distancia),
+                                            data: userNodoUltrasonido.slice(-2).map(entry => entry.distancia),
                                             label: 'Cantidad (%)',
                                         },
                                     ]}
